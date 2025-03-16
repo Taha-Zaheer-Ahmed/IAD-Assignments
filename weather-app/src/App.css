@@ -1,0 +1,49 @@
+@import url('https://fonts.googleapis.com/css2?family=Impact&display=swap');
+
+.App {
+  margin: 0;
+  padding: 0;
+  background: linear-gradient(135deg, #03ff0f, #02fde8, #cc00ff);
+  font-family: 'poppins', sans-serif;
+  letter-spacing: -1px;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+}
+
+.container {
+  text-align: center;
+  background: rgba(0,0,0,0.5);
+  padding: 40px;
+  border-radius: 10px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+
+input {
+  padding: 10px;
+  width: 250px;
+  border: none;
+  border-radius: 5px;
+  margin-right: 10px;
+}
+
+button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  background: #fdbb2d;
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+button:hover {
+  background: #b21f1f;
+}
+
+.weather-result {
+  margin-top: 20px;
+  font-size: 1.2em;
+}

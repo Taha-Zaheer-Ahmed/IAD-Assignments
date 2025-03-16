@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Weather App - Native React</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Impact&display=swap');
+    
+    body {
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(135deg, #fbff00, #2bb21f, #ff4a4a);
+      font-family: 'poppins', sans-serif;
+      letter-spacing: -1px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      color: #fff;
+    }
+    
+    .container {
+      text-align: center;
+      background: rgba(0,0,0,0.5);
+      padding: 40px;
+      border-radius: 10px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    }
+    
+    input {
+      padding: 10px;
+      width: 250px;
+      border: none;
+      border-radius: 5px;
+      margin-right: 10px;
+    }
+    
+    button {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      background: #fdbb2d;
+      color: #fff;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    
+    button:hover {
+      background: #b21f1f;
+    }
+    
+    .weather-result {
+      margin-top: 20px;
+      font-size: 1.2em;
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+  
+  <!-- Load React, ReactDOM, and Babel -->
+  <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  
+  <script type="text/babel">
+    class WeatherApp extends React.Component {
+      constructor(props) {
+        super(props);
+        this.state = { city: '', weather: null, error: '' };
+      }
+      
+      handleChange = (e) => {
+        this.setState({ city: e.target.value });
+      }
+      
+      getWeather = async () => {
+        const { city } = this.state;
+        const apiKey = '322951aa0821e50fb31830772be8b652';
+        const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${apiKey}`;
+        try {
+          const response = await fetch(url);
+          if (!response.ok) {
+            console.error('Error:', response.status, response.statusText);
+            throw new Error('City not found');
+          }
+          const data = await response.json();
+          this.setState({ weather: data, error: '' });
+        } catch (error) {
+          this.setState({ error: error.message, weather: null });
+        }
+      }
+      
+      render() {
+        const { city, weather, error } = this.state;
+        return (
+          <div className="container">
+            <h1>Weather App (Native React)</h1>
+            <div>
+              <input 
+                type="text" 
+                value={city} 
+                onChange={this.handleChange} 
+                placeholder="Enter city" 
+              />
+              <button onClick={this.getWeather}>Get Weather</button>
+            </div>
+            <div className="weather-result">
+              {error && <p>{error}</p>}
+              {weather && (
+                <div>
+                  <p><strong>{weather.name}</strong></p>
+                  <p>Temperature: {weather.main.temp}°C</p>
+                  <p>Weather: {weather.weather[0].description}</p>
+                </div>
+              )}
+            </div>
+          </div>
+        );
+      }
+    }
+    
+    ReactDOM.render(<WeatherApp />, document.getElementById('root'));
+  </script>
+</body>
+</html>
